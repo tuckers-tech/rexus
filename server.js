@@ -1,4 +1,4 @@
-const { startService } = require("./backend/service");
+const { startService } = require("./backend/src/service");
 
 const PORT = process.env.PORT || 2375;
 
