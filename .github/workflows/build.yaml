@@ -112,10 +112,6 @@ jobs:
           if [[ ${{ github.event.commits[0].message }} =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo ::set-output name=match::true
           fi
-          echo ::set-output name=RELEASE_VERSION::${{ github.event.commits[0].message }}
       - name: Build
         if: steps.check-tag.outputs.match == 'true'
-        env:
-          RELEASE_VERSION: ${{ steps.branch_name.outputs.RELEASE_VERSION }}
-        run: |
-          echo $RELEASE_VERSION
+        run: echo ${{ github.event.commits[0].message }}
