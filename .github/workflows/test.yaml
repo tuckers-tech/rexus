@@ -25,7 +25,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Run Style Checker
-        run: npm install style:check
+        run: npm run style:check
 
   lint-check:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Run Linter Checker
-        run: npm install lint
+        run: npm run lint
 
   test-frontend:
     runs-on: ubuntu-latest
