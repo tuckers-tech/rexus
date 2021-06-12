@@ -4,9 +4,7 @@ const path = require('path');
 async function startService() {
   const app = express();
 
-  const staticPath = path.join('app', 'static');
-
-  console.log(staticPath);
+  const staticPath = path.join('/', 'app', 'static');
 
   app.use(express.static(staticPath));
 
