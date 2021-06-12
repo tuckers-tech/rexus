@@ -1,24 +1,7 @@
-# rexus
+# Dockerized Redis Tooling That Doesn't Suck
 
-## Project setup
-```
-npm install
-```
+## Running
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1. Clone the Repo
+2. `docker build -t rexus .`
+3. `docker run -p 2375:2375 -d rexus`
