@@ -122,7 +122,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push to docker hub
+        if: steps.check-tag.outputs.match == 'true'
         uses: docker/build-push-action@v2
         with:
-          push: ${{ steps.check-tag.outputs.match == 'true' }}
+          push: true
           tags: hawkeye2013/rexus:latest, hawkeye2013/rexus:${{ github.event.commits[0].message }}
