@@ -24,6 +24,7 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Update NPM
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install -g npm
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -47,6 +48,7 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Update NPM
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install -g npm
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -70,6 +72,7 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Update NPM
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install -g npm
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
@@ -93,6 +96,7 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Update NPM
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install -g npm
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
