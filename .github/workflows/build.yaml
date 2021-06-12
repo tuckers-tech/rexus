@@ -112,15 +112,9 @@ jobs:
       - name: Get Branch Details
         id: branch_details
         run: |
-          echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
-          echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
-          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+          echo ::set-output name=COMMIT_MESSAGE::${github.event.commits[0].message}
       - name: Print Branch Details
         run: |
-          echo $SOURCE_NAME
-          echo $SOURCE_BRANCH
-          echo $SOURCE_TAG
+          echo $COMMIT_MESSAGE
         env:
-          SOURCE_NAME: ${{ steps.branch_details.outputs.SOURCE_NAME }}
-          SOURCE_BRANCH: ${{ steps.branch_details.outputs.SOURCE_BRANCH }}
-          SOURCE_TAG: ${{ steps.branch_details.outputs.SOURCE_TAG }}
+          COMMIT_MESSAGE: ${{ steps.branch_details.outputs.COMMIT_MESSAGE }}
