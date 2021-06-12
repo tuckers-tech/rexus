@@ -25,6 +25,7 @@ jobs:
       - name: Update NPM
         run: npm install -g npm
       - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
       - name: Run Style Checker
         run: npm run style:check
@@ -46,6 +47,7 @@ jobs:
       - name: Update NPM
         run: npm install -g npm
       - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
       - name: Run Linter Checker
         run: npm run lint
@@ -67,6 +69,7 @@ jobs:
       - name: Update NPM
         run: npm install -g npm
       - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
       - name: Run Front End Tests
         run: npm run test:frontend:ci
@@ -88,6 +91,7 @@ jobs:
       - name: Update NPM
         run: npm install -g npm
       - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
       - name: Run Backend Tests
         run: npm run test:backend:ci
