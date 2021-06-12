@@ -40,4 +40,4 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Run Backend Tests
-        run: npm run test:backend
+        run: npm run test:backend:ci

@@ -5,6 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "test:frontend": "vue-cli-service test:unit frontend --watchAll",
+    "test:frontend:ci": "vue-cli-service test:unit frontend",
+    "test:backend": "jest backend --watchAll",
+    "test:backend:ci": "jest backend",
     "lint": "vue-cli-service lint",
     "start": "node server.js",
     "start:dev": "nodemon server.js"
@@ -21,11 +25,14 @@
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-unit-jest": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "jest": "^24.9.0",
     "nodemon": "^2.0.7",
     "vue-template-compiler": "^2.6.11"
   },
@@ -41,7 +48,18 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
   },
   "browserslist": [
     "> 1%",
