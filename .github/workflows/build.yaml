@@ -1,12 +1,9 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - "main"
-  pull_request:
-    branches:
-      - "main"
+  create:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   style-check:
