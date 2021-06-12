@@ -108,10 +108,4 @@ jobs:
     steps:
       - name: Get Branch Details
         id: branch_details
-        run: |
-          echo ::set-output name=COMMIT_MESSAGE::${github.event.commits[0].message}
-      - name: Print Branch Details
-        run: |
-          echo $COMMIT_MESSAGE
-        env:
-          COMMIT_MESSAGE: ${{ steps.branch_details.outputs.COMMIT_MESSAGE }}
+        run: echo ${{ github.event.ref }}
