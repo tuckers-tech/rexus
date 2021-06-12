@@ -5,11 +5,17 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "style:check": "npm run style:check:frontend && npm run style:check:backend && npm run style:check:tests",
+    "style:check:frontend": "npx prettier --check \"src/**/*.js\" && npx prettier --check \"src/**/*.vue\"",
+    "style:check:backend": "npx prettier --check \"backend/**/*.js\"",
+    "style:check:tests": "npx prettier --check \"tests/**/*.js\"",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "vue-cli-service lint",
+    "lint:backend": "npx eslint backend/**",
     "test:frontend": "vue-cli-service test:unit frontend --watchAll",
     "test:frontend:ci": "vue-cli-service test:unit frontend",
     "test:backend": "jest backend --watchAll",
     "test:backend:ci": "jest backend",
-    "lint": "vue-cli-service lint",
     "start": "node server.js",
     "start:dev": "nodemon server.js"
   },
@@ -48,12 +54,17 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {},
+    "rules": {
+      "implicit-arrow-linebreak": "off",
+      "function-paren-newline": "off",
+      "no-plusplus": "off",
+      "operator-linebreak": "off"
+    },
     "overrides": [
       {
         "files": [
           "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+          "**/tests/**/*.spec.{j,t}s?(x)"
         ],
         "env": {
           "jest": true

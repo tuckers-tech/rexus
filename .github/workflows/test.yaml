@@ -1,4 +1,4 @@
-name: Test
+name: Test & Lint
 
 on:
   push:
@@ -9,34 +9,76 @@ on:
       - "*"
 
 jobs:
-  ci-config:
+  style-check:
     runs-on: ubuntu-latest
-    steps:
-      - run: echo "Running CI Config"
-
-  test-frontend:
-    needs: ci-config
-    runs-on: ubuntu-latest
+    name: Style Check
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Style Checker
+        run: npm install style:check
+
+  lint-check:
+    runs-on: ubuntu-latest
+    name: Lint Check
+    needs: style-check
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Linter Checker
+        run: npm install lint
+
+  test-frontend:
+    runs-on: ubuntu-latest
+    name: Test Frontend
+    needs: lint-check
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies
         run: npm install
       - name: Run Front End Tests
         run: npm run test:frontend:ci
 
   test-backend:
-    needs: ci-config
     runs-on: ubuntu-latest
+    name: Test Backend
+    needs: lint-check
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies
         run: npm install
       - name: Run Backend Tests

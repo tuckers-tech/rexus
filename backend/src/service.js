@@ -14,5 +14,5 @@ async function startService() {
 }
 
 module.exports = {
-  startService,
+  startService
 };
