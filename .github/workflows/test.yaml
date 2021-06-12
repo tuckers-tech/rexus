@@ -1,0 +1,41 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci-config:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running CI Config"
+
+  test-frontend:
+    needs: ci-config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Front End Tests
+        run: npm run test:frontend:ci
+
+  test-backend:
+    needs: ci-config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Backend Tests
+        run: npm run test:backend
