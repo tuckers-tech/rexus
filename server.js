@@ -1,6 +1,6 @@
-const { startService } = require("./backend/src/service");
+const { startService } = require('./backend/src/service');
 
-const PORT = process.env.PORT || 2375;
+const PORT = process.env.PORT || 4375;
 
 async function startServer() {
   const app = await startService();

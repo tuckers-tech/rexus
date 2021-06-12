@@ -4,7 +4,11 @@ const path = require('path');
 async function startService() {
   const app = express();
 
-  app.use(express.static(path.join('/app', 'static')));
+  const staticPath = path.join('app', 'static');
+
+  console.log(staticPath);
+
+  app.use(express.static(staticPath));
 
   app.use('/', (req, res) => {
     res.sendFile('index.html');
