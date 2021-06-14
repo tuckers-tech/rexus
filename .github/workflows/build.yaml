@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - "main"
+      - 'main'
 
 jobs:
   style-check:
@@ -14,11 +14,11 @@ jobs:
       - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: '14'
       - uses: actions/cache@v2
         id: cache
         with:
-          path: "**/node_modules"
+          path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Update NPM
         if: steps.cache.outputs.cache-hit != 'true'
@@ -38,11 +38,11 @@ jobs:
       - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: '14'
       - uses: actions/cache@v2
         id: cache
         with:
-          path: "**/node_modules"
+          path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Update NPM
         if: steps.cache.outputs.cache-hit != 'true'
@@ -62,11 +62,11 @@ jobs:
       - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: '14'
       - uses: actions/cache@v2
         id: cache
         with:
-          path: "**/node_modules"
+          path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Update NPM
         if: steps.cache.outputs.cache-hit != 'true'
@@ -82,24 +82,15 @@ jobs:
     name: Test Backend
     needs: lint-check
     steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.16'
       - uses: actions/checkout@v2
-      - name: Use Node.js 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-      - uses: actions/cache@v2
-        id: cache
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Update NPM
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install -g npm
-      - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+      - name: Get Go Dependencies
+        run: go mod download
       - name: Run Backend Tests
-        run: npm run test:backend:ci
+        run: go test ./...
 
   build-deploy:
     runs-on: ubuntu-latest
