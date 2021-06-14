@@ -19,7 +19,7 @@
     "lint:backend": "npx eslint backend/**",
     "test:frontend": "vue-cli-service test:unit frontend --watchAll",
     "test:frontend:ci": "vue-cli-service test:unit frontend",
-    "test:backend": "jest backend --watchAll",
+    "test:backend": "go test./...",
     "test:backend:ci": "jest backend",
     "start": "node server.js",
     "start:dev": "nodemon server.js"
