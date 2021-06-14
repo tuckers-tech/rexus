@@ -14,8 +14,8 @@
     "style:fix:tests": "npx prettier --write \"tests/**/*.js\"",
     "lint": "npm run lint:frontend",
     "lint:frontend": "vue-cli-service lint",
-    "test:frontend": "vue-cli-service test:unit frontend --watchAll",
-    "test:frontend:ci": "vue-cli-service test:unit frontend"
+    "test:frontend": "vue-cli-service test:unit --watchAll",
+    "test:frontend:ci": "vue-cli-service test:unit"
   },
   "dependencies": {
     "core-js": "^3.6.5",
