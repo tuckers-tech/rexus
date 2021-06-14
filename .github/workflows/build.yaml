@@ -94,7 +94,7 @@ jobs:
 
   build-deploy:
     runs-on: ubuntu-latest
-    name: Build (And Deploy)
+    name: Build (And/Or) Deploy
     needs: [test-frontend, test-backend]
     steps:
       - name: Check Tag
