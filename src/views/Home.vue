@@ -1,14 +1,18 @@
 <template>
-  <div class="home">
-    <h1>Home</h1>
+  <div class="h-screen">
+    <Layout>
+      <h1>Home</h1>
+    </Layout>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import Layout from '@/components/Layout/Layout.vue';
 
 export default {
   name: 'Home',
-  components: {},
+  components: {
+    Layout,
+  },
 };
 </script>
