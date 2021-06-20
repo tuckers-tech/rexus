@@ -7,8 +7,11 @@
     />
     <div class="flex flex-col px-2">
       <AddConnectionButton @click="openConnectionModal" />
-      <ConnectionList />
-      <ConnectionList />
+      <ConnectionList
+        v-for="connection of connections"
+        :key="connection.name"
+        :connection="connection"
+      />
     </div>
   </div>
 </template>
@@ -32,12 +35,16 @@ export default {
       isConnectionModalOpen: false,
     };
   },
+  computed: {
+    connections() {
+      return this.$store.getters.getAllConnections;
+    },
+  },
   methods: {
     openConnectionModal() {
       this.isConnectionModalOpen = true;
     },
     closeConnectionModal() {
-      console.log('closing conn modal');
       this.isConnectionModalOpen = false;
     },
   },

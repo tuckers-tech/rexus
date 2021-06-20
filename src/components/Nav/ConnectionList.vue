@@ -35,7 +35,7 @@
           d="M20 12H4"
         />
       </svg>
-      Connection Name
+      {{ connection.name }}
     </button>
     <div v-if="isOpen" class="flex flex-col p-2">
       <button class="flex hover:bg-gray-300 w-full py-2 rounded">
@@ -96,6 +96,12 @@
 <script>
 export default {
   name: 'ConnectionList',
+  props: {
+    connection: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       isOpen: false,

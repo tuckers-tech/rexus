@@ -15,7 +15,8 @@ const mutations = {
 };
 
 const actions = {
-  addConnection({ commit }, newConnection) {
+  async addConnection({ commit }, newConnection) {
+    console.log(newConnection);
     commit('addConnection', newConnection);
   },
 };
