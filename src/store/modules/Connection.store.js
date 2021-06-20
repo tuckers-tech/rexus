@@ -9,6 +9,9 @@ const getters = {
 };
 
 const mutations = {
+  setConnections(stateRef, newConnections) {
+    stateRef.connections = newConnections;
+  },
   addConnection(stateRef, newConnection) {
     stateRef.connections.push(newConnection);
   },
@@ -16,7 +19,6 @@ const mutations = {
 
 const actions = {
   async addConnection({ commit }, newConnection) {
-    console.log(newConnection);
     commit('addConnection', newConnection);
   },
 };
