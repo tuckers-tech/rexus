@@ -78,12 +78,15 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
-      - name: Run Front End Tests
-        run: npm run test:frontend:ci
-      - name: Upload Coverage Report
-        uses: romeovs/lcov-reporter-action@v0.2.16
+      # - name: Run Front End Tests
+      #   run: npm run test:frontend:ci
+      - name: Test
+        uses: mattallty/jest-github-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          lcov-file: ./coverage/lcov.info
+          # this is just an example, this could be any command that will trigger jest
+          test-command: 'npm run test:frontend:ci'
 
   test-backend:
     runs-on: ubuntu-latest
