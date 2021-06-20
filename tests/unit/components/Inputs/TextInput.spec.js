@@ -56,18 +56,11 @@ describe('Computed Values', () => {
 
   test('inputValue setter', () => {
     const testVal = 'Test';
-    const mocks = {
-      $emit: jest.fn(() => undefined),
-    };
-    wrapper = shallowMount(TextInput, {
-      propsData: {
-        ...propsData,
-      },
-      mocks,
-    });
 
     wrapper.vm.inputValue = testVal;
 
-    expect(wrapper.vm.$emit).toBeCalledTimes(1);
+    expect(wrapper.emitted().input).toBeTruthy();
+    expect(wrapper.emitted().input.length).toBe(1);
+    expect(wrapper.emitted().input[0]).toEqual([testVal]);
   });
 });
