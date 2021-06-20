@@ -55,7 +55,7 @@ export default {
     title: String,
     size: {
       type: String,
-      required: true,
+      default: 'md',
     },
   },
   computed: {

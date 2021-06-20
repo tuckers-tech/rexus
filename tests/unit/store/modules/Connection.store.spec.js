@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Connection from '@/store/modules/Connection.store';
 import Vuex from 'vuex';
 
-import { single as newConnection } from '../../fixures/Connections.json';
+import { single as newConnection } from '../../../fixures/Connections.json';
 
 let wrapper;
 let storeRef;

@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import Modal from '@/components/Layout/Modal.vue';
+import Modal from '@/components/Modals/Parent/Modal.vue';
 import TextInput from '@/components/Inputs/TextInput.vue';
 
 export default {
