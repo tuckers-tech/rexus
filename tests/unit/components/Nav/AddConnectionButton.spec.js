@@ -20,3 +20,11 @@ describe('Create', () => {
     expect(wrapper.findComponent(AddConnectionButton)).not.toBeUndefined();
   });
 });
+
+describe('Methods', () => {
+  test('onClick()', () => {
+    wrapper.vm.onClick();
+    expect(wrapper.emitted().click).toBeTruthy();
+    expect(wrapper.emitted().click.length).toBe(1);
+  });
+});

@@ -46,11 +46,6 @@
 <script>
 export default {
   name: 'Modal',
-  data() {
-    return {
-      isVisible: false,
-    };
-  },
   props: {
     title: String,
     size: {
