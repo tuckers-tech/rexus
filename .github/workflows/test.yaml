@@ -80,10 +80,10 @@ jobs:
         run: npm install
       - name: Run Front End Tests
         run: npm run test:frontend:ci
-      - uses: artiomtr/jest-coverage-report-action@v1.3
+      - name: Upload Coverage Report
+        uses: romeovs/lcov-reporter-action@v0.2.16
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          test_script: npm run test:frontend:ci
+          lcov-file: ./coverage/lcov.info
 
   test-backend:
     runs-on: ubuntu-latest
