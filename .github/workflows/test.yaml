@@ -79,11 +79,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
       - name: Run Front End Tests
-        uses: actions/upload-artifact@v2
         run: npm run test:frontend:ci
-        with:
-          name: FE Code Cov
-          path: ./coverage
 
   test-backend:
     runs-on: ubuntu-latest
