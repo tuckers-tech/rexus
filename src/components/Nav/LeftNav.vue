@@ -1,9 +1,12 @@
 <template>
   <div class="left-nav bg-gray-100">
-    <div class="logo text-2xl py-2">
-      REXUS
-    </div>
+    <Logo />
+    <AddConnectionModal
+      :isModalOpen="isConnectionModalOpen"
+      @close="closeConnectionModal"
+    />
     <div class="flex flex-col px-2">
+      <AddConnectionButton @click="openConnectionModal" />
       <ConnectionList />
       <ConnectionList />
     </div>
@@ -12,23 +15,37 @@
 
 <script>
 import ConnectionList from '@/components/Nav/ConnectionList.vue';
+import AddConnectionButton from '@/components/Nav/AddConnectionButton.vue';
+import Logo from '@/components/Nav/Logo';
+import AddConnectionModal from '../Modals/AddConnectionModal.vue';
 
 export default {
   name: 'LeftNav',
   components: {
+    AddConnectionButton,
     ConnectionList,
+    Logo,
+    AddConnectionModal,
+  },
+  data() {
+    return {
+      isConnectionModalOpen: false,
+    };
+  },
+  methods: {
+    openConnectionModal() {
+      this.isConnectionModalOpen = true;
+    },
+    closeConnectionModal() {
+      console.log('closing conn modal');
+      this.isConnectionModalOpen = false;
+    },
   },
 };
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap');
-
+<style scoped>
 .left-nav {
   width: 250px;
-}
-
-.logo {
-  font-family: 'Nunito', sans-serif;
 }
 </style>
