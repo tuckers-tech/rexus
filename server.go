@@ -1,13 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"time"
 
-	"hawkeye2013/rexus/backend/api"
+	"hawkeye2013/rexus/backend/v1/api"
 
 	"github.com/gorilla/mux"
 )
@@ -49,10 +50,9 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 
 func watchRoutes() {
-
     appRouter := mux.NewRouter()
 
-    apiRoutes := appRouter.PathPrefix("/api").Subrouter()
+    apiRoutes := appRouter.PathPrefix("/api/v1/").Subrouter()
 
     api.GetApiRoutes(apiRoutes)
 
@@ -66,6 +66,8 @@ func watchRoutes() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
+
+	fmt.Println("Starting server on port 4375")
 
 	log.Fatal(srv.ListenAndServe())
 }
