@@ -78,15 +78,12 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
-      # - name: Run Front End Tests
-      #   run: npm run test:frontend:ci
-      - name: Test
-        uses: mattallty/jest-github-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Front End Tests
+        uses: actions/upload-artifact@v2
+        run: npm run test:frontend:ci
         with:
-          # this is just an example, this could be any command that will trigger jest
-          test-command: 'npm run test:frontend:ci'
+          name: FE Code Cov
+          path: ./coverage
 
   test-backend:
     runs-on: ubuntu-latest
