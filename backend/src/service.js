@@ -1,5 +1,13 @@
 const express = require('express');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
+
+const spaLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour window
+  max: 5, // start blocking after 5 requests
+  message:
+    'Too many accounts created from this IP, please try again after an hour',
+});
 
 async function startService() {
   const app = express();
@@ -14,7 +22,7 @@ async function startService() {
     });
   });
 
-  app.use('/', (req, res) => {
+  app.use('/', spaLimiter, (req, res) => {
     res.sendFile('index.html');
   });
 
