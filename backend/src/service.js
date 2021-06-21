@@ -8,6 +8,12 @@ async function startService() {
 
   app.use(express.static(staticPath));
 
+  app.use('/api/v1/status', (req, res) => {
+    res.json({
+      status: 'green',
+    });
+  });
+
   app.use('/', (req, res) => {
     res.sendFile('index.html');
   });
