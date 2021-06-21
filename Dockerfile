@@ -30,11 +30,12 @@ COPY go.sum .
 RUN go mod download
 
 COPY ./server.go ./server.go
+COPY ./backend ./backend
 
 # Build the Go app
 RUN go build -o ./rexus .
 
-COPY --from=build-stage /app/dist /app/static
+COPY --from=build-stage /app/static /app/static
 
 # This container exposes port 4375 to the outside world
 EXPOSE 4375
