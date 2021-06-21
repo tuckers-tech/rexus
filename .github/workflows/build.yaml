@@ -82,15 +82,24 @@ jobs:
     name: Test Backend
     needs: lint-check
     steps:
-      - name: Install Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '1.16'
       - uses: actions/checkout@v2
-      - name: Get Go Dependencies
-        run: go mod download
-      - name: Run Backend Tests
-        run: go test ./...
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Update NPM
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install -g npm
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
+      - name: Run Front End Tests
+        run: npm run test:backend:ci
 
   build-deploy:
     runs-on: ubuntu-latest
