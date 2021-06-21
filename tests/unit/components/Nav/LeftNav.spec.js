@@ -31,3 +31,21 @@ describe('Create', () => {
     expect(wrapper.findComponent(LeftNav)).not.toBeUndefined();
   });
 });
+
+describe('Methods', () => {
+  test('openConnectionModal()', () => {
+    wrapper.vm.isConnectionModalOpen = false;
+
+    wrapper.vm.openConnectionModal();
+
+    expect(wrapper.vm.isConnectionModalOpen).toBe(true);
+  });
+
+  test('closeConnectionModal()', () => {
+    wrapper.vm.isConnectionModalOpen = true;
+
+    wrapper.vm.closeConnectionModal();
+
+    expect(wrapper.vm.isConnectionModalOpen).toBe(false);
+  });
+});

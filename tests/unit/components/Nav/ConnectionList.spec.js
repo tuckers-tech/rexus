@@ -8,6 +8,7 @@ const propsData = {
 };
 
 let wrapper;
+
 beforeEach(() => {
   wrapper = shallowMount(ConnectionList, {
     propsData,
@@ -22,5 +23,12 @@ afterEach(() => {
 describe('Create', () => {
   test('Component is created', () => {
     expect(wrapper.findComponent(ConnectionList)).not.toBeUndefined();
+  });
+});
+
+describe('Methods', () => {
+  test('toggleIsOpen()', () => {
+    wrapper.vm.toggleIsOpen();
+    expect(wrapper.vm.isOpen).toBe(true);
   });
 });
