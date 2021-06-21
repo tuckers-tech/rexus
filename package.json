@@ -15,7 +15,7 @@
     "lint": "npm run lint:frontend",
     "lint:frontend": "vue-cli-service lint",
     "test:frontend": "vue-cli-service test:unit --watchAll",
-    "test:frontend:ci": "vue-cli-service test:unit"
+    "test:frontend:ci": "vue-cli-service test:unit --coverage"
   },
   "dependencies": {
     "core-js": "^3.6.5",

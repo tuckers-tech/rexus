@@ -1,0 +1,19 @@
+{
+  "single": {
+    "name": "Test",
+    "host": "localhost",
+    "port": "6379"
+  },
+  "multiple": [
+    {
+      "name": "Test",
+      "host": "localhost",
+      "port": "6379"
+    },
+    {
+      "name": "Test2",
+      "host": "localhost",
+      "port": "6379"
+    }
+  ]
+}

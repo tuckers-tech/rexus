@@ -12,3 +12,14 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+window.addEventListener('message', (e) => {
+  if (
+    e.data &&
+    typeof e.data === 'string' &&
+    e.data.match(/webpackHotUpdate/)
+  ) {
+    location.reload();
+    console.clear();
+  }
+});
