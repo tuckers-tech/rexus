@@ -1,6 +1,6 @@
-const fs = require('fs');
+// const fs = require('fs');
 const path = require('path');
-const sqlite = require('sqlite3').verbose;
+// const sqlite = require('sqlite3').verbose;
 
 function getDBDir() {
   if (process.env.NODE_ENV === 'development') {
