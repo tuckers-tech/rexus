@@ -14,8 +14,6 @@ const spaLimiter = rateLimit({
 async function startService() {
   const app = express();
 
-  console.log(getDBDir());
-
   app.use('/api/v1', appRouterV1);
 
   app.use('/status', (req, res) => {
