@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const connectionRoutes = require('./connectionRouter');
+module.exports = async function() {
+  const connectionRoutes = await require('./connectionRouter')();
 
-router.use('/connection', connectionRoutes);
+  router.use('/connection', connectionRoutes);
 
-module.exports = router;
+  return router;
+};

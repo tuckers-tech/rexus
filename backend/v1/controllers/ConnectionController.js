@@ -1,12 +1,17 @@
 const DBControllerFactory = require('../db/DBControllerFactory');
+const Logger = require('../parents/Logger');
 
-class ConnectionController {
+class ConnectionController extends Logger {
   constructor() {
-    this.dbCtrl = DBControllerFactory();
+    super('ConnectionController');
+  }
+
+  async init() {
+    this.dbCtrl = await DBControllerFactory();
   }
 
   createConnection() {
-    console.log('Create Connection');
+    this.logInfo('Create Connection');
   }
 
   removeConnection() {}

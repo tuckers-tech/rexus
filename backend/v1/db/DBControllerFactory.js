@@ -1,11 +1,16 @@
+const { getDBPath } = require('../helpers/directories');
 const DBController = require('./DBController');
 
 let dbController;
 
-function DBControllerFactory() {
-  if (dbController) return dbController;
+async function DBControllerFactory() {
+  if (dbController) {
+    return dbController;
+  }
 
-  dbController = new DBController();
+  dbController = new DBController(getDBPath());
+
+  await dbController.init();
 
   return dbController;
 }

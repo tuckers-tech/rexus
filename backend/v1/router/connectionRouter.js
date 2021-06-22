@@ -1,25 +1,27 @@
 const express = require('express');
-const ConnectionController = require('../controllers/Connection');
-
+const ConnectionController = require('../controllers/ConnectionController');
 const router = express.Router();
-
 const connectionCtrl = new ConnectionController();
 
-router.get('/', (req, res) => {
-  res.send('Get Connections');
-});
+module.exports = async function() {
+  await connectionCtrl.init();
 
-router.get('/:id', (req, res) => {
-  res.send(`Get Connections By ID: ${req.params.id}`);
-});
+  router.get('/', (req, res) => {
+    res.send('Get Connections');
+  });
 
-router.put('/', (req, res) => {
-  res.send('Update Route');
-});
+  router.get('/:id', (req, res) => {
+    res.send(`Get Connections By ID: ${req.params.id}`);
+  });
 
-router.post('/', (req, res) => {
-  connectionCtrl.createConnection();
-  res.send('Create Connection');
-});
+  router.put('/', (req, res) => {
+    res.send('Update Route');
+  });
 
-module.exports = router;
+  router.post('/', async (req, res) => {
+    await connectionCtrl.createConnection();
+    res.send('Create Connection');
+  });
+
+  return router;
+};
