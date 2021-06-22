@@ -3,16 +3,18 @@ const path = require('path');
 const rateLimit = require('express-rate-limit');
 
 const appRouterV1 = require('./v1/router/index');
+const { getDBDir } = require('./startup/startup');
 
 const spaLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour window
-  max: 5, // start blocking after 5 requests
-  message:
-    'Too many accounts created from this IP, please try again after an hour',
+  windowMs: 60 * 1000, // 1 minute window
+  max: 500, // start blocking after 500 requests
+  message: 'Too many requests from this IP',
 });
 
 async function startService() {
   const app = express();
+
+  console.log(getDBDir());
 
   app.use('/api/v1', appRouterV1);
 

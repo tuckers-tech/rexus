@@ -3,6 +3,7 @@ node_modules
 /dist
 /coverage
 /static
+/db
 
 
 # local env files

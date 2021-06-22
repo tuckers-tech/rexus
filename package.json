@@ -22,7 +22,7 @@
     "test:backend": "jest backend --watchAll",
     "test:backend:ci": "jest backend",
     "start": "node server.js",
-    "start:dev": "nodemon server.js"
+    "start:dev": "export NODE_ENV=development && nodemon server.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
