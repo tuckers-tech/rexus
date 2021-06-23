@@ -23,5 +23,20 @@ module.exports = async function() {
     res.send('Create Connection');
   });
 
+  router.post('/test', async (req, res) => {
+    const connection = req.body;
+
+    try {
+      const testResults = await connectionCtrl.testConnection(connection);
+      res.json({
+        connectionValid: testResults,
+      });
+    } catch (err) {
+      res.json({
+        connectionValid: false,
+      });
+    }
+  });
+
   return router;
 };

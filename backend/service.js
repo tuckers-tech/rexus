@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 const { startLogger } = require('./startup/startup');
+const { getSPAPath } = require('./v1/helpers/directories');
 
 const spaLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute window
@@ -14,6 +15,8 @@ async function startService() {
 
   app = startLogger(app);
 
+  app.use(express.json());
+
   const appRouterV1 = await require('./v1/router')();
 
   app.use('/api/v1', appRouterV1);
@@ -23,9 +26,8 @@ async function startService() {
       status: 'green',
     });
   });
-  const staticPath = path.join('/', 'app', 'static');
 
-  app.use(express.static(staticPath));
+  app.use(express.static(getSPAPath()));
 
   app.use('/', spaLimiter, (req, res) => {
     res.sendFile('index.html');
