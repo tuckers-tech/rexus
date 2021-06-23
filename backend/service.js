@@ -1,7 +1,6 @@
 const express = require('express');
-const path = require('path');
 const rateLimit = require('express-rate-limit');
-const { startLogger } = require('./startup/startup');
+const { startLogger, setApplicationLocation } = require('./startup/startup');
 const { getSPAPath } = require('./v1/helpers/directories');
 
 const spaLimiter = rateLimit({
@@ -12,6 +11,8 @@ const spaLimiter = rateLimit({
 
 async function startService() {
   let app = express();
+
+  await setApplicationLocation();
 
   app = startLogger(app);
 
