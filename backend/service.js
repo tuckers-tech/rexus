@@ -1,5 +1,6 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 const { startLogger, setApplicationLocation } = require('./startup/startup');
 const { getSPAPath } = require('./v1/helpers/directories');
 
@@ -17,6 +18,7 @@ async function startService() {
   app = startLogger(app);
 
   app.use(express.json());
+  app.use(cors());
 
   const appRouterV1 = await require('./v1/router')();
 

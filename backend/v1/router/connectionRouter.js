@@ -26,6 +26,8 @@ module.exports = async function() {
   router.post('/test', async (req, res) => {
     const connection = req.body;
 
+    console.log(connection);
+
     try {
       const testResults = await connectionCtrl.testConnection(connection);
       res.json({

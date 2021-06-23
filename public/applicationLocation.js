@@ -1,1 +1,1 @@
-window.API_LOCATION = 'http://locahost:4375';
+window.API_LOCATION = 'http://localhost:4375';

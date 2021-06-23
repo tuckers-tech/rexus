@@ -27,6 +27,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "core-js": "^3.6.5",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-rate-limit": "^5.2.6",
     "fs-extra": "^7.0.1",
