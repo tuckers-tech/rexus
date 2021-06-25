@@ -16,7 +16,16 @@ function getSPAPath() {
   return path.join('/', 'app', 'static');
 }
 
+function getSQLPath() {
+  if (process.env.NODE_ENV === 'development') {
+    return path.join(__dirname, '..', 'db', 'SQL');
+  }
+
+  return path.join('/', 'app', 'backend', 'v1', 'db', 'SQL');
+}
+
 module.exports = {
   getDBPath,
   getSPAPath,
+  getSQLPath,
 };

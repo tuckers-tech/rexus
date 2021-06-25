@@ -1,6 +1,16 @@
 const DBControllerFactory = require('../db/DBControllerFactory');
+const path = require('path');
 const Logger = require('../parents/Logger');
 const redis = require('redis');
+const { sqlReader } = require('../db/sqlReader');
+const { getSQLPath } = require('../helpers/directories');
+
+const queryPath = path.join(
+  getSQLPath(),
+  'queries',
+  'connection',
+  'CreateConnection.sql',
+);
 
 class ConnectionController extends Logger {
   constructor() {
@@ -11,8 +21,25 @@ class ConnectionController extends Logger {
     this.dbCtrl = await DBControllerFactory();
   }
 
-  createConnection() {
-    this.logInfo('Create Connection');
+  async createConnection(newConnection) {
+    console.log(newConnection);
+    try {
+      const query = await sqlReader(queryPath);
+
+      const args = {
+        $name: newConnection.name,
+        $host: newConnection.host,
+        $port: newConnection.port,
+      };
+
+      const result = await this.dbCtrl.runQuery(query, args);
+      return {
+        ...newConnection,
+        id: result.lastID,
+      };
+    } catch (err) {
+      return false;
+    }
   }
 
   removeConnection() {}

@@ -19,7 +19,15 @@ const mutations = {
 
 const actions = {
   async addConnection({ commit }, newConnection) {
-    commit('addConnection', newConnection);
+    const results = await fetch(`${window.API_LOCATION}/api/v1/connection`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newConnection),
+    }).then((response) => response.json());
+
+    commit('addConnection', results);
   },
 };
 

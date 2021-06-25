@@ -122,9 +122,9 @@ export default {
       connectionTestStatus: '',
       isTestingConnection: false,
       connection: {
-        name: '',
-        host: '',
-        port: '',
+        name: 'Testing',
+        host: 'localhost',
+        port: '6379',
       },
     };
   },
@@ -147,20 +147,21 @@ export default {
         this.clearFormData();
       }
     },
+
     async sendConnectionTest() {
       this.isTestingConnection = true;
       try {
-        const results = await fetch(
+        const { connectionValid } = await fetch(
           `${window.API_LOCATION}/api/v1/connection/test`,
           {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(this.connection), // body data type must match "Content-Type" header
+            body: JSON.stringify(this.connection),
           },
         ).then((response) => response.json());
-        if (results.connectionValid) {
+        if (connectionValid) {
           this.connectionTestStatus = 'success';
         } else {
           this.connectionTestStatus = 'failure';
