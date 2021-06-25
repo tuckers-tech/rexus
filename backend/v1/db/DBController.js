@@ -38,6 +38,19 @@ class DBController extends Logger {
 
   runQuery(query, args) {
     return new Promise((resolve, reject) => {
+      this.db.all(query, args, function(err, rows) {
+        if (err) {
+          logError('DBController.js - callback', err);
+          reject(err);
+        }
+
+        resolve(rows);
+      });
+    });
+  }
+
+  runInsert(query, args) {
+    return new Promise((resolve, reject) => {
       this.db.run(query, args, function(err) {
         if (err) {
           logError('DBController.js - callback', err);

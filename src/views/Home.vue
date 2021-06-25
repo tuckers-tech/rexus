@@ -14,5 +14,8 @@ export default {
   components: {
     Layout,
   },
+  created() {
+    this.$store.dispatch('getAllConnections');
+  },
 };
 </script>

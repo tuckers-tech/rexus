@@ -5,11 +5,18 @@ const redis = require('redis');
 const { sqlReader } = require('../db/sqlReader');
 const { getSQLPath } = require('../helpers/directories');
 
-const queryPath = path.join(
+const createConnectionPath = path.join(
   getSQLPath(),
   'queries',
   'connection',
   'CreateConnection.sql',
+);
+
+const getAllConnectionsPath = path.join(
+  getSQLPath(),
+  'queries',
+  'connection',
+  'GetAllConnections.sql',
 );
 
 class ConnectionController extends Logger {
@@ -22,9 +29,8 @@ class ConnectionController extends Logger {
   }
 
   async createConnection(newConnection) {
-    console.log(newConnection);
     try {
-      const query = await sqlReader(queryPath);
+      const query = await sqlReader(createConnectionPath);
 
       const args = {
         $name: newConnection.name,
@@ -32,7 +38,7 @@ class ConnectionController extends Logger {
         $port: newConnection.port,
       };
 
-      const result = await this.dbCtrl.runQuery(query, args);
+      const result = await this.dbCtrl.runInsert(query, args);
       return {
         ...newConnection,
         id: result.lastID,
@@ -44,7 +50,16 @@ class ConnectionController extends Logger {
 
   removeConnection() {}
 
-  getAllConnections() {}
+  async getAllConnections() {
+    try {
+      const query = await sqlReader(getAllConnectionsPath);
+
+      const result = await this.dbCtrl.runQuery(query);
+      return result;
+    } catch (err) {
+      return false;
+    }
+  }
 
   getConnectionByID() {}
 
@@ -56,12 +71,10 @@ class ConnectionController extends Logger {
       });
 
       client.on('connect', function() {
-        console.log(client.server_info);
         client.quit();
         resolve(true);
       });
       client.on('error', function(error) {
-        console.log(error);
         client.quit();
         reject(error);
       });

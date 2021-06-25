@@ -6,8 +6,14 @@ const connectionCtrl = new ConnectionController();
 module.exports = async function() {
   await connectionCtrl.init();
 
-  router.get('/', (req, res) => {
-    res.send('Get Connections');
+  router.get('/', async (req, res) => {
+    const allConnections = await connectionCtrl.getAllConnections();
+    if (!allConnections) {
+      res.json({
+        success: false,
+      });
+    }
+    res.status(200).json(allConnections);
   });
 
   router.get('/:id', (req, res) => {
