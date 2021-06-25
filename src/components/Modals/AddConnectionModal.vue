@@ -122,9 +122,9 @@ export default {
       connectionTestStatus: '',
       isTestingConnection: false,
       connection: {
-        name: 'Testing',
-        host: 'localhost',
-        port: '6379',
+        name: '',
+        host: '',
+        port: '',
       },
     };
   },

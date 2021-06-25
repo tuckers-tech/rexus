@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const state = {
   connections: [],
 };
@@ -18,30 +20,35 @@ const mutations = {
 };
 
 const actions = {
-  async getAllConnections({ commit }) {
-    const results = await fetch(`${window.API_LOCATION}/api/v1/connection`, {
-      method: 'GET',
-    }).then((response) => response.json());
+  async setAllConnections({ commit }) {
+    try {
+      const { data } = await axios.get(
+        `${window.API_LOCATION}/api/v1/connection`,
+      );
 
-    const mappedResults = results.map((row) => ({
-      id: row.con_id,
-      name: row.con_name,
-      host: row.con_host,
-      port: row.con_port,
-    }));
+      const mappedResults = data.map((row) => ({
+        id: row.con_id,
+        name: row.con_name,
+        host: row.con_host,
+        port: row.con_port,
+      }));
 
-    commit('setConnections', mappedResults);
+      commit('setConnections', mappedResults);
+    } catch (err) {
+      console.log(err);
+    }
   },
   async addConnection({ commit }, newConnection) {
-    const results = await fetch(`${window.API_LOCATION}/api/v1/connection`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newConnection),
-    }).then((response) => response.json());
+    try {
+      const { data } = await axios.post(
+        `${window.API_LOCATION}/api/v1/connection`,
+        newConnection,
+      );
 
-    commit('addConnection', results);
+      commit('addConnection', data);
+    } catch (err) {
+      console.log(err);
+    }
   },
 };
 

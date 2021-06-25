@@ -15,7 +15,7 @@ export default {
     Layout,
   },
   created() {
-    this.$store.dispatch('getAllConnections');
+    this.$store.dispatch('setAllConnections');
   },
 };
 </script>

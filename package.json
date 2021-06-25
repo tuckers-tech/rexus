@@ -25,6 +25,7 @@
     "start:dev": "export NODE_ENV=development && export REXUS_LOG_LEVEL=verbose && export REXUS_APPLICATION_URL=http://locahost:4375 && nodemon server.js --ignore static/"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "chalk": "^2.4.2",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
