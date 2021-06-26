@@ -1,0 +1,1 @@
+SELECT * FROM connections WHERE con_id=$con_id;

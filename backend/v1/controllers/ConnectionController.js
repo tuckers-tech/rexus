@@ -19,6 +19,13 @@ const getAllConnectionsPath = path.join(
   'GetAllConnections.sql',
 );
 
+const getConnectionByIDPath = path.join(
+  getSQLPath(),
+  'queries',
+  'connection',
+  'GetConnectionById.sql',
+);
+
 class ConnectionController extends Logger {
   constructor() {
     super('ConnectionController');
@@ -26,6 +33,7 @@ class ConnectionController extends Logger {
 
   async init() {
     this.dbCtrl = await DBControllerFactory();
+    this.liveConnections = [];
   }
 
   async createConnection(newConnection) {
@@ -48,6 +56,17 @@ class ConnectionController extends Logger {
     }
   }
 
+  convertQueryKeys(data) {
+    return data.map((row) => ({
+      id: row.con_id,
+      name: row.con_name,
+      host: row.con_host,
+      port: row.con_port,
+    }));
+  }
+
+  async connect() {}
+
   removeConnection() {}
 
   async getAllConnections() {
@@ -61,7 +80,17 @@ class ConnectionController extends Logger {
     }
   }
 
-  getConnectionByID() {}
+  async getConnectionByID(targetID) {
+    try {
+      const query = await sqlReader(getConnectionByIDPath);
+
+      const result = await this.dbCtrl.runQuery(query, { $con_id: targetID });
+
+      return this.convertQueryKeys(result);
+    } catch (err) {
+      return false;
+    }
+  }
 
   testConnection(connection) {
     return new Promise((resolve, reject) => {
@@ -82,4 +111,18 @@ class ConnectionController extends Logger {
   }
 }
 
-module.exports = ConnectionController;
+let connectionCtrl;
+
+async function getConnectionController() {
+  if (connectionCtrl) {
+    return connectionCtrl;
+  }
+
+  connectionCtrl = new ConnectionController();
+
+  await connectionCtrl.init();
+
+  return connectionCtrl;
+}
+
+module.exports = getConnectionController;

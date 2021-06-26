@@ -1,10 +1,9 @@
 const express = require('express');
-const ConnectionController = require('../controllers/ConnectionController');
+const getConnectionController = require('../controllers/ConnectionController');
 const router = express.Router();
-const connectionCtrl = new ConnectionController();
 
 module.exports = async function() {
-  await connectionCtrl.init();
+  const connectionCtrl = await getConnectionController();
 
   router.get('/', async (req, res) => {
     const allConnections = await connectionCtrl.getAllConnections();
@@ -16,8 +15,23 @@ module.exports = async function() {
     res.status(200).json(allConnections);
   });
 
-  router.get('/:id', (req, res) => {
-    res.send(`Get Connections By ID: ${req.params.id}`);
+  router.get('/:id', async (req, res) => {
+    const connection = await connectionCtrl.getConnectionByID(req.params.id);
+    if (!connection) {
+      res.json({
+        success: false,
+      });
+    }
+
+    const foundResult = connection[0];
+
+    if (foundResult) {
+      res.status(200).json(foundResult);
+    } else {
+      res
+        .status(404)
+        .send(`Unable to find connection with ID: ${req.params.id}`);
+    }
   });
 
   router.put('/', (req, res) => {
