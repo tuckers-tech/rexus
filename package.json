@@ -22,12 +22,20 @@
     "test:backend": "jest backend --watchAll",
     "test:backend:ci": "jest backend",
     "start": "node server.js",
-    "start:dev": "nodemon server.js"
+    "start:dev": "export NODE_ENV=development && export REXUS_LOG_LEVEL=verbose && export REXUS_APPLICATION_URL=http://locahost:4375 && nodemon server.js --ignore static/"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "chalk": "^2.4.2",
     "core-js": "^3.6.5",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-rate-limit": "^5.2.6",
+    "fs-extra": "^7.0.1",
+    "knex": "^0.95.6",
+    "morgan": "^1.10.0",
+    "redis": "^3.1.2",
+    "sqlite3": "^5.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0",

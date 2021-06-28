@@ -14,5 +14,20 @@ export default {
   components: {
     Layout,
   },
+  created() {
+    this.$store.dispatch('setAllConnections');
+
+    console.log('Starting connection to WebSocket Server');
+    this.connection = new WebSocket('ws://localhost:4375');
+
+    this.connection.onmessage = function(event) {
+      console.log(event);
+    };
+
+    this.connection.onopen = function(event) {
+      console.log(event);
+      console.log('Successfully connected to the echo websocket server...');
+    };
+  },
 };
 </script>

@@ -15,5 +15,17 @@
       "host": "localhost",
       "port": "6379"
     }
+  ],
+  "multipleSQL": [
+    {
+      "con_name": "Test",
+      "con_host": "localhost",
+      "con_port": "6379"
+    },
+    {
+      "con_name": "Test2",
+      "con_host": "localhost",
+      "con_port": "6379"
+    }
   ]
 }

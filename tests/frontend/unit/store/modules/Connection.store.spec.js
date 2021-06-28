@@ -2,7 +2,13 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Connection from '@/store/modules/Connection.store';
 import Vuex from 'vuex';
 
-import { single as newConnection } from '../../../fixures/Connections.json';
+import axios from 'axios';
+
+import {
+  single as newConnection,
+  multiple as connections,
+  multipleSQL,
+} from '../../../fixures/Connections.json';
 
 let wrapper;
 let storeRef;
@@ -16,6 +22,9 @@ const store = new Vuex.Store({
     Connection,
   },
 });
+
+axios.get = jest.fn(() => Promise.resolve({ data: connections }));
+axios.post = jest.fn(() => Promise.resolve({ data: newConnection }));
 
 beforeEach(() => {
   const Component = {
@@ -56,6 +65,10 @@ describe('Getters', () => {
 });
 
 describe('Mutations', () => {
+  test('setConnections updates all connections', () => {
+    storeRef.commit('setConnections', connections);
+    expect(storeRef.state.Connection.connections).toEqual(connections);
+  });
   test('addConnection updates connections', () => {
     storeRef.commit('addConnection', newConnection);
     const targetStateVal = [];
@@ -65,12 +78,21 @@ describe('Mutations', () => {
 });
 
 describe('Actions', () => {
-  test('connection is defined on state', async () => {
+  test('setAllConnections returns all connections', async () => {
+    axios.get.mockImplementationOnce(() =>
+      Promise.resolve({ data: multipleSQL }),
+    );
+
+    await storeRef.dispatch('setAllConnections');
+
+    expect(storeRef.state.Connection.connections).toEqual(connections);
+  });
+  test('Add Connection Adds A Connection', async () => {
     await storeRef.dispatch('addConnection', newConnection);
 
     const targetStateVal = [];
     targetStateVal.push(newConnection);
 
-    expect(storeRef.state.Connection.connections).toEqual(targetStateVal);
+    expect(storeRef.state.Connection.connections[0]).toEqual(newConnection);
   });
 });

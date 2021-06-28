@@ -9,7 +9,7 @@
       <AddConnectionButton @click="openConnectionModal" />
       <ConnectionList
         v-for="connection of connections"
-        :key="connection.name"
+        :key="connection.id"
         :connection="connection"
       />
     </div>
