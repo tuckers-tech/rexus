@@ -1,0 +1,15 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
+
+  rexus:
+    image: hawkeye2013/rexus
+    restart: always
+    ports:
+      - 4375:4375
