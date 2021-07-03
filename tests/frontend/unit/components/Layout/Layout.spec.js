@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import Layout from '@/components/Layout/Layout.vue';
+import LeftNav from '@/components/Nav/LeftNav.vue';
 
 const propsData = {};
 
@@ -19,5 +20,6 @@ afterEach(() => {
 describe('Create', () => {
   test('Component is created', () => {
     expect(wrapper.findComponent(Layout)).not.toBeUndefined();
+    expect(wrapper.findComponent(LeftNav)).not.toBeUndefined();
   });
 });

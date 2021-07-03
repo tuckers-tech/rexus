@@ -1,8 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
 import TextInput from '@/components/Inputs/TextInput.vue';
+import waitForNextTick from '../../../../helpers/waitForNextTick';
 
 const propsData = {
-  name: 'Name:',
+  name: 'example',
   placeholder: 'Local Docker',
   label: 'Name:',
 };
@@ -54,7 +55,7 @@ describe('Computed Values', () => {
     expect(wrapper.vm.inputValue).toBe(val);
   });
 
-  test('inputValue setter', () => {
+  test('inputValue setter emits change value', () => {
     const testVal = 'Test';
 
     wrapper.vm.inputValue = testVal;
@@ -62,5 +63,19 @@ describe('Computed Values', () => {
     expect(wrapper.emitted().input).toBeTruthy();
     expect(wrapper.emitted().input.length).toBe(1);
     expect(wrapper.emitted().input[0]).toEqual([testVal]);
+  });
+});
+
+describe('Input Functionality', () => {
+  test('Input Hooked up to v-model', async () => {
+    const textInput = wrapper.find('input[type="text"]');
+
+    const targetValue = 'example';
+
+    await textInput.setValue(targetValue);
+
+    waitForNextTick(() => {
+      expect(wrapper.vm.inputValue).toEqual(targetValue);
+    });
   });
 });

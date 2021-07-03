@@ -28,3 +28,11 @@ describe('Methods', () => {
     expect(wrapper.emitted().click.length).toBe(1);
   });
 });
+
+describe('Functionality', () => {
+  test('Button click emits event', () => {
+    wrapper.find('button').trigger('click');
+
+    expect(wrapper.emitted().click).toBeTruthy();
+  });
+});

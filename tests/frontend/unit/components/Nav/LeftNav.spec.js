@@ -3,8 +3,6 @@ import LeftNav from '@/components/Nav/LeftNav.vue';
 
 import { multiple as connections } from '../../../fixures/Connections.json';
 
-const propsData = {};
-
 const mocks = {
   $store: {
     getters: {
@@ -16,7 +14,6 @@ const mocks = {
 let wrapper;
 beforeEach(() => {
   wrapper = shallowMount(LeftNav, {
-    propsData,
     mocks,
   });
   jest.clearAllMocks();
@@ -33,7 +30,7 @@ describe('Create', () => {
 });
 
 describe('Methods', () => {
-  test('openConnectionModal()', () => {
+  test('openConnectionModal() opens modal', () => {
     wrapper.vm.isConnectionModalOpen = false;
 
     wrapper.vm.openConnectionModal();
@@ -41,7 +38,7 @@ describe('Methods', () => {
     expect(wrapper.vm.isConnectionModalOpen).toBe(true);
   });
 
-  test('closeConnectionModal()', () => {
+  test('closeConnectionModal() closes modal', () => {
     wrapper.vm.isConnectionModalOpen = true;
 
     wrapper.vm.closeConnectionModal();
