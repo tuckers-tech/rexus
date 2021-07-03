@@ -1,10 +1,6 @@
 <template>
   <div class="left-nav bg-gray-100">
     <Logo />
-    <AddConnectionModal
-      :isModalOpen="isConnectionModalOpen"
-      @close="closeConnectionModal"
-    />
     <div class="flex flex-col px-2">
       <AddConnectionButton @click="openConnectionModal" />
       <ConnectionList
@@ -13,6 +9,10 @@
         :connection="connection"
       />
     </div>
+    <AddConnectionModal
+      :isModalOpen="isConnectionModalOpen"
+      @close="closeConnectionModal"
+    />
   </div>
 </template>
 
