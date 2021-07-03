@@ -1,4 +1,4 @@
-# Dockerized Redis Tooling That Doesn't Suck
+# Dockerized Redis Tooling
 
 ## Running
 
