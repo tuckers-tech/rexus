@@ -35,7 +35,7 @@ const actions = {
 
       commit('setConnections', mappedResults);
     } catch (err) {
-      console.log(err);
+      console.error('Error Setting Connection');
     }
   },
   async addConnection({ commit }, newConnection) {
@@ -47,7 +47,7 @@ const actions = {
 
       commit('addConnection', data);
     } catch (err) {
-      console.log(err);
+      console.error('Error Adding connection');
     }
   },
 };

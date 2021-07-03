@@ -15,6 +15,12 @@ const mocks = {
   },
 };
 
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ connectionValid: true }),
+  }),
+);
+
 const propsData = {
   isModalOpen: false,
 };
@@ -47,40 +53,66 @@ describe('Methods', () => {
     expect(wrapper.vm.connection).toEqual(emptyConnection);
   });
 
-  test('submitFormData() does not submit when name empty', () => {
-    wrapper.vm.connection.host = 'localhost';
-    wrapper.vm.connection.port = '1111';
+  describe('submitFormData()', () => {
+    test('submitFormData() does not submit when name empty', () => {
+      wrapper.vm.connection.host = 'localhost';
+      wrapper.vm.connection.port = '1111';
 
-    wrapper.vm.submitFormData();
+      wrapper.vm.submitFormData();
 
-    expect(mocks.$store.dispatch).toBeCalledTimes(0);
+      expect(mocks.$store.dispatch).toBeCalledTimes(0);
+    });
+
+    test('submitFormData() does not submit when host empty', () => {
+      wrapper.vm.connection.name = 'localhost';
+      wrapper.vm.connection.port = '1111';
+
+      wrapper.vm.submitFormData();
+
+      expect(mocks.$store.dispatch).toBeCalledTimes(0);
+    });
+
+    test('submitFormData() does not submit when port empty', () => {
+      wrapper.vm.connection.host = 'localhost';
+      wrapper.vm.connection.name = 'Local';
+
+      wrapper.vm.submitFormData();
+
+      expect(mocks.$store.dispatch).toBeCalledTimes(0);
+    });
+
+    test('submitFormData() does submit when valid', () => {
+      wrapper.vm.connection.name = 'Local';
+      wrapper.vm.connection.host = 'localhost';
+      wrapper.vm.connection.port = '1111';
+
+      wrapper.vm.submitFormData();
+
+      expect(mocks.$store.dispatch).toBeCalledTimes(1);
+    });
   });
 
-  test('submitFormData() does not submit when host empty', () => {
-    wrapper.vm.connection.name = 'localhost';
-    wrapper.vm.connection.port = '1111';
+  describe('sendConnectionTest()', () => {
+    test('sendConnectionTest() sends successful connection', async () => {
+      await wrapper.vm.sendConnectionTest();
 
-    wrapper.vm.submitFormData();
+      expect(wrapper.vm.connectionTestStatus).toBe('success');
+    });
+    test('sendConnectionTest() sends failing connection', async () => {
+      global.fetch.mockImplementationOnce(() =>
+        Promise.resolve({
+          json: () => Promise.resolve({ connectionValid: false }),
+        }),
+      );
+      await wrapper.vm.sendConnectionTest();
 
-    expect(mocks.$store.dispatch).toBeCalledTimes(0);
-  });
+      expect(wrapper.vm.connectionTestStatus).toBe('failure');
+    });
+    test('sendConnectionTest() gracefully handles error', async () => {
+      global.fetch.mockImplementationOnce(() => Promise.reject());
+      await wrapper.vm.sendConnectionTest();
 
-  test('submitFormData() does not submit when port empty', () => {
-    wrapper.vm.connection.host = 'localhost';
-    wrapper.vm.connection.name = 'Local';
-
-    wrapper.vm.submitFormData();
-
-    expect(mocks.$store.dispatch).toBeCalledTimes(0);
-  });
-
-  test('submitFormData() does submit when valid', () => {
-    wrapper.vm.connection.name = 'Local';
-    wrapper.vm.connection.host = 'localhost';
-    wrapper.vm.connection.port = '1111';
-
-    wrapper.vm.submitFormData();
-
-    expect(mocks.$store.dispatch).toBeCalledTimes(1);
+      expect(wrapper.vm.connectionTestStatus).toBe('failure');
+    });
   });
 });

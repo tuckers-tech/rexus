@@ -37,6 +37,10 @@
           @click="sendConnectionTest"
         >
           <span v-if="!isTestingConnection">Test Connection</span>
+          <!--
+            TODO(TUCKER) - This should be pulled out into a loading button component
+            That Would remove all the extra styles as well.a
+          -->
           <div v-if="isTestingConnection" class="sk-circle">
             <div class="sk-circle1 sk-child"></div>
             <div class="sk-circle2 sk-child"></div>

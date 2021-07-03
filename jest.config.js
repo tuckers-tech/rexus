@@ -5,6 +5,7 @@ if (process.argv.includes('frontend')) {
       '**/tests/frontend/**/*.[jt]s?(x)',
       '**/?(*.)+(spec|test).[jt]s?(x)',
     ],
+    coveragePathIgnorePatterns: ['<rootDir>/tests/helpers/'],
   };
 } else {
   module.exports = {
