@@ -20,9 +20,9 @@ exports.logInfo = (source, contentToLog) => {
 
 exports.logError = (source, contentToLog) => {
   console.error(
-    `${chalk.blueBright('[ERROR]')} :: :: ${
+    `${chalk.redBright('[ERROR]')} :: :: ${
       logSource ? chalk.gray(source) + ' :: ' : ''
-    }${chalk.whiteBright(contentToLog)}`,
+    }${chalk.redBright(contentToLog)}`,
   );
 };
 
