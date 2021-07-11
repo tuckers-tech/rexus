@@ -34,6 +34,12 @@ module.exports = async function() {
     }
   });
 
+  router.post('/:id/connect', async (req, res) => {
+    await connectionCtrl.connect(req.params.id);
+
+    res.send(true);
+  });
+
   router.put('/', (req, res) => {
     res.send('Update Route');
   });

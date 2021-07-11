@@ -29,6 +29,7 @@ const getConnectionByIDPath = path.join(
 class ConnectionController extends Logger {
   constructor() {
     super('ConnectionController');
+    this.liveConnections = [];
   }
 
   async init() {
@@ -65,7 +66,9 @@ class ConnectionController extends Logger {
     }));
   }
 
-  async connect() {}
+  async connect(connectionID) {
+    console.log(connectionID);
+  }
 
   removeConnection() {}
 
