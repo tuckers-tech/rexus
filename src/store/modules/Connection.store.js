@@ -50,6 +50,30 @@ const actions = {
       console.error('Error Adding connection');
     }
   },
+  async startWatchingConnection(_, targetID) {
+    try {
+      await axios.post(
+        `${window.API_LOCATION}/api/v1/connection/${parseInt(
+          targetID,
+          10,
+        )}/connect`,
+      );
+    } catch (err) {
+      console.error('Error Watching Connection');
+    }
+  },
+  async stopWatchingConnection(_, targetID) {
+    try {
+      await axios.post(
+        `${window.API_LOCATION}/api/v1/connection/${parseInt(
+          targetID,
+          10,
+        )}/disconnect`,
+      );
+    } catch (err) {
+      console.error('Error Watching Connection');
+    }
+  },
 };
 
 export default {

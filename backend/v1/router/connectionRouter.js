@@ -54,6 +54,16 @@ module.exports = async function() {
     }
   });
 
+  router.post('/:id/disconnect', async (req, res) => {
+    const connectionResult = await connectionCtrl.disconnect(req.params.id);
+
+    if (connectionResult.success) {
+      res.send(true);
+    } else {
+      res.status(connectionResult.code).send(connectionResult.message);
+    }
+  });
+
   router.put('/', (req, res) => {
     res.send('Update Route');
   });

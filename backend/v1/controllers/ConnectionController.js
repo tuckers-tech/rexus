@@ -94,9 +94,7 @@ class ConnectionController extends WebSocketController {
 
     if (currentActiveConnections.includes(parseInt(connectionID, 10))) {
       return {
-        success: false,
-        code: 400,
-        message: 'Connection Already Active',
+        success: true,
       };
     }
 
@@ -136,7 +134,30 @@ class ConnectionController extends WebSocketController {
     };
   }
 
-  removeConnection() {}
+  async disconnect(connectionID) {
+    try {
+      const newActiveConnections = [];
+      this.activeConnections.forEach((connection) => {
+        if (connection.connectionID !== connectionID) {
+          newActiveConnections.push(connection);
+        } else {
+          connection.client.end(true);
+        }
+      });
+
+      this.activeConnections = newActiveConnections;
+
+      return {
+        success: true,
+      };
+    } catch (err) {
+      return {
+        success: false,
+        code: 500,
+        message: 'Error Monitoring',
+      };
+    }
+  }
 
   getActiveConnections() {
     return this.activeConnections;

@@ -1,7 +1,9 @@
 <template>
-  <router-link to="/" class="logo text-2xl py-2">
-    REXUS
-  </router-link>
+  <div class="py-2">
+    <router-link to="/" class="logo text-2xl">
+      REXUS
+    </router-link>
+  </div>
 </template>
 
 <script>
