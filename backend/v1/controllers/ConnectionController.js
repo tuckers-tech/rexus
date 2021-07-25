@@ -1,9 +1,9 @@
 const DBControllerFactory = require('../db/DBControllerFactory');
 const path = require('path');
-const Logger = require('../parents/Logger');
 const redis = require('redis');
 const { sqlReader } = require('../db/sqlReader');
 const { getSQLPath } = require('../helpers/directories');
+const WebSocketController = require('../parents/WebSocketController');
 
 const createConnectionPath = path.join(
   getSQLPath(),
@@ -26,15 +26,26 @@ const getConnectionByIDPath = path.join(
   'GetConnectionById.sql',
 );
 
-class ConnectionController extends Logger {
+class ConnectionController extends WebSocketController {
   constructor() {
     super('ConnectionController');
     this.liveConnections = [];
+    this.activeConnections = [];
   }
 
   async init() {
     this.dbCtrl = await DBControllerFactory();
+    await this.initWSController();
     this.liveConnections = [];
+  }
+
+  onGetWSMessage(message) {
+    console.log(message);
+    this.ws.send('response');
+  }
+
+  sendMessage(message) {
+    this.ws.send(JSON.stringify(message));
   }
 
   async createConnection(newConnection) {
@@ -67,10 +78,69 @@ class ConnectionController extends Logger {
   }
 
   async connect(connectionID) {
-    console.log(connectionID);
+    const targetConnection = await this.getConnectionByID(connectionID);
+
+    if (targetConnection.length === 0) {
+      return {
+        success: false,
+        code: 404,
+        message: 'Unable To Find Connection',
+      };
+    }
+
+    const currentActiveConnections = this.activeConnections.map((connection) =>
+      parseInt(connection.connectionID, 10),
+    );
+
+    if (currentActiveConnections.includes(parseInt(connectionID, 10))) {
+      return {
+        success: false,
+        code: 400,
+        message: 'Connection Already Active',
+      };
+    }
+
+    const client = redis.createClient({
+      host: targetConnection.host,
+      port: targetConnection.port,
+    });
+
+    client.monitor((err) => {
+      if (err) {
+        return {
+          success: false,
+          code: 500,
+          message: 'Error Monitoring',
+        };
+      }
+    });
+
+    client.on('monitor', (time, args, rawReply) => {
+      this.sendMessage({
+        connectionID,
+        message: {
+          time,
+          args,
+          rawReply,
+        },
+      });
+    });
+
+    this.activeConnections.push({
+      connectionID,
+      client,
+    });
+
+    return {
+      success: true,
+    };
   }
 
   removeConnection() {}
+
+  getActiveConnections() {
+    return this.activeConnections;
+  }
 
   async getAllConnections() {
     try {
