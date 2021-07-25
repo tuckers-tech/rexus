@@ -8,6 +8,11 @@ const getters = {
   getAllConnections(stateRef) {
     return stateRef.connections;
   },
+  getConnectionByID: (stateRef) => (targetID) => {
+    return stateRef.connections.filter(
+      (connection) => connection.id === targetID,
+    )[0];
+  },
 };
 
 const mutations = {
