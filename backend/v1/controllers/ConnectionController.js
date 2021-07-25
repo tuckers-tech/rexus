@@ -26,6 +26,14 @@ const getConnectionByIDPath = path.join(
   'GetConnectionById.sql',
 );
 
+function getServerInfo(client) {
+  return new Promise((resolve) => {
+    client.on('ready', () => {
+      resolve(client.server_info);
+    });
+  });
+}
+
 class ConnectionController extends WebSocketController {
   constructor() {
     super('ConnectionController');
@@ -75,6 +83,32 @@ class ConnectionController extends WebSocketController {
       host: row.con_host,
       port: row.con_port,
     }));
+  }
+
+  async getConnectionDetails(connectionID) {
+    const targetConnection = await this.getConnectionByID(connectionID);
+
+    if (targetConnection.length === 0) {
+      return {
+        success: false,
+        code: 404,
+        message: 'Unable To Find Connection',
+      };
+    }
+
+    const client = redis.createClient({
+      host: targetConnection.host,
+      port: targetConnection.port,
+    });
+
+    const info = await getServerInfo(client);
+
+    client.end(true);
+
+    return {
+      success: true,
+      info,
+    };
   }
 
   async connect(connectionID) {

@@ -44,6 +44,18 @@ module.exports = async function() {
     }
   });
 
+  router.get('/:id/server-info', async (req, res) => {
+    const connectionInfo = await connectionCtrl.getConnectionDetails(
+      req.params.id,
+    );
+
+    if (connectionInfo.success) {
+      res.json(connectionInfo.info);
+    } else {
+      res.status(connectionInfo.code).send(connectionInfo.message);
+    }
+  });
+
   router.post('/:id/connect', async (req, res) => {
     const connectionResult = await connectionCtrl.connect(req.params.id);
 
