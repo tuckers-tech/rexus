@@ -23,6 +23,8 @@ export default {
   data() {
     return {
       serverInfo: undefined,
+      updateInterval: undefined,
+      updateTime: 3000,
     };
   },
   computed: {
@@ -34,11 +36,25 @@ export default {
     },
   },
   async created() {
-    const { data } = await axios.get(
-      `${window.API_LOCATION}/api/v1/connection/${this.targetConnectionID}/server-info`,
-    );
-    this.serverInfo = data;
-    console.log(this.serverInfo);
+    this.updateConnectionData();
+    this.setUpdateInterval(this.updateTime);
+  },
+  destroyed() {
+    clearInterval(this.updateInterval);
+  },
+  methods: {
+    async setUpdateInterval(updateTime) {
+      this.updateInterval = setInterval(() => {
+        this.updateConnectionData();
+      }, updateTime);
+    },
+    async updateConnectionData() {
+      const { data } = await axios.get(
+        `${window.API_LOCATION}/api/v1/connection/${this.targetConnectionID}/server-info`,
+      );
+      this.serverInfo = data;
+      console.log('Updated Server Info');
+    },
   },
 };
 </script>
