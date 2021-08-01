@@ -1,6 +1,8 @@
 <template>
-  <div class="logo text-2xl py-2">
-    REXUS
+  <div class="py-2">
+    <router-link to="/" class="logo text-2xl">
+      REXUS
+    </router-link>
   </div>
 </template>
 

@@ -10,35 +10,35 @@ const spaLimiter = rateLimit({
   message: 'Too many requests from this IP',
 });
 
-async function startService() {
-  let app = express();
+class Service {
+  constructor() {
+    this.app = express();
+  }
 
-  await setApplicationLocation();
+  async startService() {
+    await setApplicationLocation();
 
-  app = startLogger(app);
+    startLogger(this.app);
 
-  app.use(express.json());
-  app.use(cors());
+    this.app.use(express.json());
+    this.app.use(cors());
 
-  const appRouterV1 = await require('./v1/router')();
+    const appRouterV1 = await require('./v1/router')();
 
-  app.use('/api/v1', appRouterV1);
+    this.app.use('/api/v1', appRouterV1);
 
-  app.use('/status', (req, res) => {
-    res.json({
-      status: 'green',
+    this.app.use('/status', (req, res) => {
+      res.json({
+        status: 'green',
+      });
     });
-  });
 
-  app.use(express.static(getSPAPath()));
+    this.app.use(express.static(getSPAPath()));
 
-  app.use('/', spaLimiter, (req, res) => {
-    res.sendFile('index.html');
-  });
-
-  return app;
+    this.app.use('/', spaLimiter, (req, res) => {
+      res.sendFile('index.html');
+    });
+  }
 }
 
-module.exports = {
-  startService,
-};
+module.exports = Service;

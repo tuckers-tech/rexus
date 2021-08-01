@@ -15,6 +15,16 @@ module.exports = async function() {
     res.status(200).json(allConnections);
   });
 
+  router.get('/active', (req, res) => {
+    const activeConnections = connectionCtrl.getActiveConnections();
+
+    res.send(
+      activeConnections.map((connection) =>
+        parseInt(connection.connectionID, 10),
+      ),
+    );
+  });
+
   router.get('/:id', async (req, res) => {
     const connection = await connectionCtrl.getConnectionByID(req.params.id);
     if (!connection) {
@@ -34,10 +44,36 @@ module.exports = async function() {
     }
   });
 
-  router.post('/:id/connect', async (req, res) => {
-    await connectionCtrl.connect(req.params.id);
+  router.get('/:id/server-info', async (req, res) => {
+    const connectionInfo = await connectionCtrl.getConnectionDetails(
+      req.params.id,
+    );
 
-    res.send(true);
+    if (connectionInfo.success) {
+      res.json(connectionInfo.info);
+    } else {
+      res.status(connectionInfo.code).send(connectionInfo.message);
+    }
+  });
+
+  router.post('/:id/connect', async (req, res) => {
+    const connectionResult = await connectionCtrl.connect(req.params.id);
+
+    if (connectionResult.success) {
+      res.send(true);
+    } else {
+      res.status(connectionResult.code).send(connectionResult.message);
+    }
+  });
+
+  router.post('/:id/disconnect', async (req, res) => {
+    const connectionResult = await connectionCtrl.disconnect(req.params.id);
+
+    if (connectionResult.success) {
+      res.send(true);
+    } else {
+      res.status(connectionResult.code).send(connectionResult.message);
+    }
   });
 
   router.put('/', (req, res) => {

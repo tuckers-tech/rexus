@@ -8,6 +8,11 @@ const getters = {
   getAllConnections(stateRef) {
     return stateRef.connections;
   },
+  getConnectionByID: (stateRef) => (targetID) => {
+    return stateRef.connections.filter(
+      (connection) => connection.id === targetID,
+    )[0];
+  },
 };
 
 const mutations = {
@@ -48,6 +53,30 @@ const actions = {
       commit('addConnection', data);
     } catch (err) {
       console.error('Error Adding connection');
+    }
+  },
+  async startWatchingConnection(_, targetID) {
+    try {
+      await axios.post(
+        `${window.API_LOCATION}/api/v1/connection/${parseInt(
+          targetID,
+          10,
+        )}/connect`,
+      );
+    } catch (err) {
+      console.error('Error Watching Connection');
+    }
+  },
+  async stopWatchingConnection(_, targetID) {
+    try {
+      await axios.post(
+        `${window.API_LOCATION}/api/v1/connection/${parseInt(
+          targetID,
+          10,
+        )}/disconnect`,
+      );
+    } catch (err) {
+      console.error('Error Watching Connection');
     }
   },
 };

@@ -1,6 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import Connection from '../views/Connection/Connection.vue';
+import ConnectionDashboard from '../views/Connection/ConnectionDashboard.vue';
+import ConnectionQuery from '../views/Connection/ConnectionQuery.vue';
+import ConnectionWatch from '../views/Connection/ConnectionWatch.vue';
 
 Vue.use(VueRouter);
 
@@ -11,13 +15,26 @@ const routes = [
     component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/connection/:id',
+    name: 'Connection',
+    component: Connection,
+    children: [
+      {
+        name: 'ConnectionDashboard',
+        path: 'dashboard',
+        component: ConnectionDashboard,
+      },
+      {
+        name: 'ConnectionQuery',
+        path: 'query',
+        component: ConnectionQuery,
+      },
+      {
+        name: 'ConnectionWatch',
+        path: 'watch',
+        component: ConnectionWatch,
+      },
+    ],
   },
 ];
 

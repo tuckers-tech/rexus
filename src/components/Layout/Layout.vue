@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex">
+  <div class="h-full flex overflow-y-none">
     <LeftNav />
     <slot />
   </div>
