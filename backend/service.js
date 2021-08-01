@@ -3,7 +3,6 @@ const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const { startLogger, setApplicationLocation } = require('./startup/startup');
 const { getSPAPath } = require('./v1/helpers/directories');
-const { getWSS } = require('./v1/websocket/websocket');
 
 const spaLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute window
