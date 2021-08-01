@@ -12,6 +12,7 @@ let wrapper;
 beforeEach(() => {
   wrapper = shallowMount(ConnectionList, {
     propsData,
+    stubs: ['router-link'],
   });
   jest.clearAllMocks();
 });
